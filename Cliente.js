@@ -1,4 +1,6 @@
 import { preguntar, color, db } from './datos.js';
+import { prepararPedidoCocina } from './cocina.js';
+import { notificarCaja } from './caja.js';
 
 function mostrarMenuCliente() {
     const disponibles = db.productos.filter(p => p.cantidad > 0);
@@ -21,7 +23,7 @@ function mostrarMenuCliente() {
 }
 
 function mostrarPromociones() {
-    console.log(`\n${color.fondoBlanco}${color.rojo}  PROMOCIONES AUTOMÁTICAS  ${color.reset}`);
+    console.log(`\n${color.fondoBlanco}${color.rojo}  PROMOCIONES  ${color.reset}`);
     console.log(`${color.verde}* ¡PROMO 3x2! ${color.blanco}Lleva exactamente 3 unidades de cualquier artículo y la tercera es gratis.${color.reset}`);
     console.log(`${color.verde}* ¡DESCUENTO VOLUMEN! ${color.blanco}Si compras 4 o más unidades del mismo artículo, te descontamos el 10% en ese artículo.${color.reset}\n`);
 }
@@ -74,13 +76,28 @@ function procesarPedido(nombreCliente, items) {
             iva: iva,
             total: totalPedido
         };
-        db.pedidos.push(nuevoPedido);
-        db.totalAcumulado += totalPedido;
         
-        console.log(`\n${color.fondoVerde}${color.blanco} Pedido #${nuevoPedido.id} procesado con exito ${color.reset}`);
-        console.log(`Subtotal: $${subtotalPedido.toFixed(2)} | IVA (16%): $${iva.toFixed(2)} | ${color.fondoBlanco}${color.negro} TOTAL: $${totalPedido.toFixed(2)} ${color.reset}`);
+        console.log(`\n${color.fondoVerde}${color.blanco} Pedido #${nuevoPedido.id} procesado. Pasando a cocina... ${color.reset}`);
         
-        mostrarPromociones();
+        console.log(`\n${color.blanco} Pedido recibido...${color.reset}`);
+        
+        setTimeout(() => {
+            console.log(`${color.blanco} Preparando.........${color.reset}`);
+        }, 1500);
+        
+        setTimeout(() => {
+            console.log(`${color.blanco} Empacando.........${color.reset}`);
+        }, 3000);
+
+        prepararPedidoCocina(nuevoPedido)
+            .then((pedidoTerminado) => {
+                console.log(`\n${color.verde} Pedido Entregado ${color.reset}`);
+                notificarCaja(null, pedidoTerminado);
+            })
+            .catch((motivoError) => {
+                console.log(`\n${color.rojo} Pedido Cancelado ${color.reset}`);
+                notificarCaja(motivoError, nuevoPedido);
+            });
     }
 }
 
