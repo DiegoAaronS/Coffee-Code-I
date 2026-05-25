@@ -21,7 +21,7 @@ function mostrarMenuCliente() {
 }
 
 function mostrarPromociones() {
-    console.log(`\n${color.fondoBlanco}${color.rojo}  PROMOCIONES  ${color.reset}`);
+    console.log(`\n${color.fondoBlanco}${color.rojo}  PROMOCIONES AUTOMÁTICAS  ${color.reset}`);
     console.log(`${color.verde}* ¡PROMO 3x2! ${color.blanco}Lleva exactamente 3 unidades de cualquier artículo y la tercera es gratis.${color.reset}`);
     console.log(`${color.verde}* ¡DESCUENTO VOLUMEN! ${color.blanco}Si compras 4 o más unidades del mismo artículo, te descontamos el 10% en ese artículo.${color.reset}\n`);
 }
