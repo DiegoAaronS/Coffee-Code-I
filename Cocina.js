@@ -16,6 +16,22 @@ export function prepararPedidoCocina(pedido) {
     });
 }
 
+export function prepararPedidoCocina(pedido) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const probabilidad = Math.random();
+            
+            if (probabilidad < 0.2) {
+                reject("Error en cocina (Se quemó el café)");
+            } else if (probabilidad >= 0.2 && probabilidad < 0.4) {
+                reject("Falta ingrediente en inventario físico");
+            } else {
+                resolve(pedido); // Todo salió bien
+            }
+        }, 4500); 
+    });
+}
+
 export async function menuCocina() {
     let salir = false;
     while (!salir) {
